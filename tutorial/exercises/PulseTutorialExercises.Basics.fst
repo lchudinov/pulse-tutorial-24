@@ -5,9 +5,9 @@ let fstar_five : int = 5
 
 ```pulse
 fn five ()
-requires emp
+requires emp  // this is a trivial proposition, fun s -> True
 returns n:int
-ensures pure (n == 5)
+ensures pure (n == 5)  // heap-independent predicate fun s -> (n == 5)
 { 
   fstar_five
 }
@@ -20,6 +20,24 @@ fn incr (r:ref int) (#n:erased int) // since n is purely specificational, it is 
 {
     let x = !r;
     r := x + 1
+}
+```
+
+```pulse
+fn incr_frame (x y: ref int)
+requires pts_to x 'i ** pts_to y 'j
+ensures pts_to x ('i + 1) ** pts_to y 'j
+{
+  incr x
+}
+```
+
+```pulse
+fn incr_frame_any (x: ref int) (f: vprop)
+requires pts_to x 'i ** f
+ensures pts_to x ('i + 1) ** f
+{
+  incr x
 }
 ```
 

@@ -31,9 +31,9 @@ let fstar_five : int = 5
 
 ```pulse
 fn five ()
-  requires emp
+  requires emp           // this is a trivial proposition, fun s -> True
   returns n:int
-  ensures pure (n == 5)
+  ensures pure (n == 5)  // heap-independent predicate fun s -> (n == 5)
 { 
   fstar_five
 }

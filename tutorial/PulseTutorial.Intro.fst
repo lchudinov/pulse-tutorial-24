@@ -39,8 +39,8 @@ let incr_functional (x:int) = x + 1
 
 ```pulse //incr
 fn incr (x:ref int)
-requires pts_to x 'i
-ensures pts_to x ('i + 1)
+requires pts_to x 'i           // intially, x points to 'i
+ensures pts_to x ('i + 1)      // when incr returns, x points to 'i + 1  
 {
     let v = !x;
     x := v + 1;
@@ -60,8 +60,8 @@ ensures pts_to x (i + 1)
 
 ```pulse //par_incr
 fn par_incr (x y:ref int)
-requires pts_to x 'i ** pts_to y 'j
-ensures pts_to x ('i + 1) ** pts_to y ('j + 1)
+requires pts_to x 'i ** pts_to y 'j // initially, x points to 'i and y points to 'j
+ensures pts_to x ('i + 1) ** pts_to y ('j + 1) // when par_incr returns, x points to 'i + 1 and y points to 'j + 1
 {
    par (fun _ -> incr x)
        (fun _ -> incr y)
